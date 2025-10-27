@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 
@@ -66,7 +67,7 @@ public:
         return grades;
     }
 
-    double calculateAverage()
+    double calculateAverage() const
     {
         double sumgrd = 0.0;
         for (double grd : grades)
@@ -105,11 +106,92 @@ public:
 
 };
 
+class StudentGroup
+{
+private:
+    vector<Student> students;
+
+public:
+
+    StudentGroup() {}
+    StudentGroup(vector<Student> nstudents)
+    {
+        students = nstudents;
+    }
+
+    void addStudent(Student student)
+    {
+        students.push_back(student);
+    }
+
+    Student findStudentsByPartialName(string partial)
+    {
+        auto it = find_if(students.begin(), students.end(), [&partial](Student& st)
+            {
+                return st.getName().find(partial) != std::string::npos;
+
+            });
+        if (it != students.end())
+        {
+            return *it;
+        }
+        else
+        {
+
+            throw std::runtime_error("Студент не найден");
+        }
+    }
+
+    Student findStudentByName(string name)
+    {
+        auto it = find_if(students.begin(), students.end(), [&name](Student& st) {return st.getName() == name; });
+        if (it != students.end())
+        {
+            return *it;
+        }
+        else
+        {
+
+            throw std::runtime_error("Студент не найден");
+        }
+    }
+
+    void sortByAverage()
+    {
+        sort(students.begin(), students.end(),
+            [](const Student&  a, const Student& b) 
+            {
+                return a.calculateAverage() > b.calculateAverage();  
+            });
+
+    }
+
+    void displayAllStudents()
+    {
+        for (Student stdnt : students)
+        {
+            stdnt.displayInfo();
+        }
+    }
+
+    StudentGroup getTopStudents(int n)
+    {
+        vector<Student>topStudents;
+        sortByAverage();
+        int count = min(n, (int)students.size());
+        for (int i = 0; i < count; i++)
+        {
+            topStudents.push_back(students[i]);
+        }
+        return topStudents;
+    }
+};
 
 
 int main()
 {
-    setlocale(LC_ALL, "ru");
+   
     
 }
+
 
