@@ -1,3 +1,2 @@
 ﻿  Student-and-teacher.cpp
-C:\Users\Денис\Desktop\el-psy-congroo\Student_and_teacher\Student-and-teacher.cpp(110,1): warning C4715: Student::calculateAverage: значение возвращается не при всех путях выполнения
   Student-and-teacher.vcxproj -> C:\Users\Денис\Desktop\el-psy-congroo\Student_and_teacher\x64\Debug\Student-and-teacher.exe
