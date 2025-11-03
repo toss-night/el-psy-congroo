@@ -2,6 +2,9 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
+#include <map>   
+#include <set>   
 using namespace std;
 
 class Person
@@ -18,7 +21,6 @@ public:
 		age(nage >= 16 ? nage : 0),
 		email(nemail.find("@edu.ru") != string::npos ? nemail : "Unknown")
 	{}
-
 	virtual Person* clone() const = 0;
 	virtual ~Person() = default;
 
@@ -96,7 +98,6 @@ public:
 			studentId = nstudentId;
 		}
 	}
-
 	void setGrades(vector <int> ngrades)
 	{
 		for (int grade : ngrades)
@@ -107,7 +108,6 @@ public:
 			}
 		}
 	}
-
 	double calculateAverage()
 	{
 		if (grades.empty())
@@ -124,7 +124,7 @@ public:
 			return avegrd/grades.size();
 		}
 	}
-	
+
 	void displayInfo() override
 	{
 		Person::displayInfo();
@@ -291,6 +291,99 @@ public:
 	}
 };
 
+class UniversitySystem
+{
+private:
+	unordered_map<string, Person*> peopleById;
+	map<string, set<Person*>> peopleByRole;
+	set<string> usedEmails;
+
+public:
+	UniversitySystem() {}
+
+	void addPerson(Person* person, string id)
+	{
+		if (!id.empty())
+		{
+			peopleById[id] = person;
+		}
+	}
+	Person* findPersonById(string id)
+	{
+		return peopleById[id];
+	}
+	vector<Person*> getPeopleByRole(const string& role)
+	{
+		vector<Person*> persns;
+
+		if (peopleByRole.find(role) != peopleByRole.end())
+		{
+			for (Person* pers : peopleByRole[role])
+			{
+				persns.push_back(pers);
+			}
+		}
+		return persns;
+	}
+	set<string> getAllRoles()
+	{
+		set<string>roles;
+
+		for (auto& [role, pers] : peopleByRole)
+		{
+			roles.insert(role);
+		}
+		return roles;
+	}
+	bool isEmailUsed(string email)
+	{
+		return usedEmails.find(email) != usedEmails.end();
+	}
+
+	void removePerson(string id)
+	{
+		auto it = peopleById.find(id);
+		if (it != peopleById.end())
+		{
+			Person* person = it->second;
+
+			peopleById.erase(it);
+			string role = person->getRole();
+			auto roleIt = peopleByRole.find(role);
+			if (roleIt != peopleByRole.end())
+			{
+				roleIt->second.erase(person);
+			}
+
+			if (roleIt->second.empty())
+			{
+				peopleByRole.erase(roleIt);
+			}
+		}
+	};
+	void clear()
+	{
+		for (auto& pair : peopleById)
+		{
+			delete pair.second;
+		}
+		peopleById.clear();
+		peopleByRole.clear();
+		usedEmails.clear();
+	}
+	map<string, int> getStatistics()
+	{
+		map<string, int> stats;
+
+		for (const auto& [role, persons] : peopleByRole)
+		{
+			stats[role] = persons.size();
+		}
+
+		return stats;
+
+	}
+};
 
 
 
@@ -302,4 +395,3 @@ int main()
 	
 	
 }
-
