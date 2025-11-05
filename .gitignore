@@ -19,3 +19,9 @@ x86/
 # MSBuild
 *.log
 *.tlog
+
+# Специфично для этого проекта
+Book-library/.vs/
+Book-library/x64/
+Book-library/Book-library.vcxproj.user
+Book-library/Book-library/x64/
