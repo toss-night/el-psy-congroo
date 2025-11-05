@@ -392,6 +392,6 @@ int main()
 {
 	setlocale(LC_ALL, "ru");
 	
-	
+	Person* st1 = new Student()
 	
 }
