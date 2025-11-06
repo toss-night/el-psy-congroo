@@ -41,3 +41,7 @@
 *.dwo
 *.ipch
 .vs/
+trash/trash.vcxproj.user
+trash/x64/
+trash/.vs/
+trash/trash/x64/
