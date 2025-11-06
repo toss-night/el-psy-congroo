@@ -1,3 +1,0 @@
-﻿  Book-library.cpp
-C:\Users\Денис\Desktop\el-psy-congroo\Book-library\Book-library.cpp(237,36): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-  Book-library.vcxproj -> C:\Users\Денис\Desktop\el-psy-congroo\Book-library\x64\Debug\Book-library.exe

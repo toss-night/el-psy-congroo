@@ -1,47 +1,21 @@
-# Prerequisites
-*.d
+# Visual Studio
+[Bb]in/
+[Oo]bj/
+*.user
+*.vcxproj.user
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# debug information files
-*.dwo
-*.ipch
-.vs/
+# Специфичные пути
+Book-library/.vs/
+Book-library/x64/
+Book-library/Book-library.vcxproj.user
 trash/trash.vcxproj.user
 trash/x64/
 trash/.vs/
-trash/trash/x64/
