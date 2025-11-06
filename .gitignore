@@ -18,4 +18,6 @@ Book-library/x64/
 Book-library/Book-library.vcxproj.user
 trash/trash.vcxproj.user
 trash/x64/
-trash/.vs/
+trash/.vs/**/.vs/
+Student_accounting_system/.vs/
+Student_and_teacher/.vs/
