@@ -4,7 +4,9 @@
 #include <algorithm>
 #include <unordered_map>
 #include <map>   
-#include <set>   
+#include <set>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 class Book
@@ -29,12 +31,12 @@ public:
         isAvailable = true;
     }
 
-    string getTitle() { return title; }
-    string getAuthor() { return author; }
-    int getYear() { return year; }
-    string getIsbn() { return ISBN; }
-    string getGenre() { return genre; }
-    bool getIsAvailable() { return isAvailable; }
+    string getTitle() const { return title; }
+    string getAuthor() const { return author; }
+    int getYear() const { return year; }
+    string getIsbn() const { return ISBN; }
+    string getGenre() const { return genre; }
+    bool getIsAvailable() const { return isAvailable; }
 
     void setTitle(string nt)
     {
@@ -238,12 +240,45 @@ public:
         }
         return stats;
     }
+
+    void saveToFile(const string& filename)
+    {
+        ofstream file(filename);
+        for (const Book& book : books)
+        {
+            file << book.getTitle() << "," << book.getAuthor() << "," << book.getYear() << ",";
+            file << book.getIsbn() << "," << book.getGenre() << "," << (book.getIsAvailable() ? "1" : "0") << "\n";
+        }
+    }
+    vector<Book>loadFromFile(const string& filename)
+    {
+        ifstream file(filename);
+        vector<Book>books;      
+        string line;
+        while (getline(file, line))
+        {
+            string title, author, syear, isbn, genre, savi;
+            stringstream st(line);
+            getline(st, title, ',');
+            getline(st, author, ',');
+            getline(st, syear, ',');
+            getline(st, isbn, ',');
+            getline(st, genre, ',');
+            getline(st, savi);
+            int year=stoi(syear);
+            bool avi;
+            if (savi == "1") { avi = true; }
+            Book book(title, author, year, isbn, genre, avi);
+            books.push_back(book);
+        }
+        return books;
+    }
 };
 
 int main()
 {
     setlocale(LC_ALL, "ru");
-    
-    
+   
+   
 }
 
