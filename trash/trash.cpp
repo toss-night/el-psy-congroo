@@ -4,6 +4,7 @@
 #include <set>
 #include <algorithm>
 #include <unordered_map>
+#include <memory>
 using namespace std;
 
 void swapValues(int* a, int* b) 
@@ -12,14 +13,12 @@ void swapValues(int* a, int* b)
     *a = *b;
     *b = c;
 }
-
 void swapValuesRef(int& a, int& b) 
 {
     int c = a;
     a = b;
     b = c;
 }
-
 class Point 
 {
 public:
@@ -27,14 +26,11 @@ public:
     Point() {}
     Point(int a, int b) :x(a), y(b) {}
 };
-
-
 Point* createPoint(int x, int y) 
 {
     Point *z = new Point(x, y);
     return z;
 }
-
 void doubleArray(int* arr, int size)
 {
     for (int i = 0; i < size; i++)
@@ -43,15 +39,28 @@ void doubleArray(int* arr, int size)
     }
 }
 
+class Classs
+{
+public:
+    void met() { cout << "hello world" << endl; }
+    string name="ghole";
+};
 
+void ddd()
+{
+    auto ptr1 = make_unique<Classs>();
 
-
+    cout << ptr1->name << endl;
+    ptr1 -> name = "gay";
+    cout << ptr1->name << endl;
+}
 
 
 int main()
 {
     setlocale(LC_ALL, "ru");
-
     
+    ddd();
+   
 }
 
