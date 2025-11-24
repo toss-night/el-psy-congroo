@@ -34,7 +34,55 @@ public:
     }
 };
 
+template<typename T>
+class shared_ptr
+{
+private:
+    T* ptr;
+    int* count;
+    void addRef()
+    {
+        if (count)
+        {
+            (*count)++;
+        }
+    }
+    void releaseRef()
+    {
+        if (count && --(*count) == 0)
+        {
+            delete ptr;
+            delete count;
+            ptr = nullptr;
+            count = nullptr;
+        }
+    }
 
+public:
+    explicit shared_ptr(T* obj = nullptr) : ptr(obj), count(obj ? new int(1) : nullptr) {}
+
+    shared_ptr(const shared_ptr& other) :ptr(other.ptr), count(other.count) { addRef(); }
+    shared_ptr& operator= (const shared_ptr& other)
+    {
+        if (this != &other)
+        {
+            releaseRef();
+            ptr = other.ptr;
+            count = other.count;
+            addRef();
+        }
+        return *this;
+    }
+
+    int use_count() const { return count ? *count : 0; }
+
+    ~shared_ptr() { releaseRef(); }
+
+    T* get() const { return ptr; }
+    T& operator*() const { return *ptr; }
+    T* operator->() const { return ptr; }
+    shared_ptr operator bool() const { return ptr != nullptr; }
+};
 
 
 int main()
