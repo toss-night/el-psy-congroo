@@ -81,12 +81,12 @@ public:
     T* get() const { return ptr; }
     T& operator*() const { return *ptr; }
     T* operator->() const { return ptr; }
-    shared_ptr operator bool() const { return ptr != nullptr; }
+    explicit operator bool() const { return ptr != nullptr; }
 };
 
 
 int main()
 {    
-
+   
 }
 
