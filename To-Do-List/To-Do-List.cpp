@@ -2,40 +2,20 @@
 #include <vector>
 #include <string>
 
-class Task
-{
-private:
-	bool done{ false };
-	std::string taskName;
-
-public:
-	Task() : taskName("unknown") {}
-
-	Task(std::string nameTask) 
-		:taskName(!nameTask.empty() ? nameTask : "unknown")
-	{}
-
-	std::string getTaskName() const { return taskName; }
-
-	bool getDone() const { return done; }
-
-	void setTaskName(std::string&& name)
-	{
-		if (!name.empty())
-		{
-			taskName = name;
-		}
-	}
-
-	void setDone(bool d)
-	{
-		done = d;
-	}
-};
-
 class TaskList
 {
 private:
+	struct Task
+	{	
+		bool done{ false };
+		std::string taskName;
+	
+		Task() : taskName("unknown") {}
+		Task(const std::string& nameTask)
+			:taskName(!nameTask.empty() ? nameTask : "unknown")
+		{}	
+	};
+
 	std::vector<Task>tasks;	
 
 public:
@@ -50,17 +30,17 @@ public:
 	{
 		for (const auto& task : tasks)
 		{
-			std::cout << "[" << std::string(task.getDone() ? "X" : " ") << "] " << task.getTaskName() << "\n";
+			std::cout << "[" << std::string(task.done ? "X" : " ") << "] " << task.taskName << "\n";
 		}
 	}
 
-	void completeTask(const std::string& taskName)
+	void completeTask(const std::string& ntaskName)
 	{
-		auto it = find_if(tasks.begin(), tasks.end(), [&taskName](Task& task)
-			{ return task.getTaskName() == taskName; });
+		auto it = std::find_if(tasks.begin(), tasks.end(), [&ntaskName](Task& task)
+			{ return task.taskName == ntaskName; });
 		if (it != tasks.end())
 		{
-			it->setDone(true);
+			it->done = true;
 		}
 		else
 		{
@@ -68,10 +48,10 @@ public:
 		}
 	}
 
-	void removeTask(const std::string& taskName)
+	void removeTask(const std::string& ntaskName)
 	{
-		auto it = find_if(tasks.begin(), tasks.end(), [&taskName](Task& task)
-			{ return task.getTaskName() == taskName; });
+		auto it = std::find_if(tasks.begin(), tasks.end(), [&ntaskName](Task& task)
+			{ return task.taskName == ntaskName; });
 		if (it != tasks.end())
 		{
 			tasks.erase(it);
@@ -81,8 +61,6 @@ public:
 			std::cout << "task not found!\n";
 		}
 	}
-
-
 };
 
 int main()
