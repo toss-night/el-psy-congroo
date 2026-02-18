@@ -1,0 +1,3 @@
+# id|damage|name|description
+1|10|sword|simple sword
+end
