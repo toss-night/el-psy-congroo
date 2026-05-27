@@ -85,15 +85,18 @@ public:
 class Location {
 private:
     int id;   
-    std::string name, description;
+    std::string name, toname, description;
+    std::vector<int> exits;
 public:
     Location() :name("unknown") {}
-    Location(int i, const std::string& n, const std::string d) 
-        : id(i), name(n.empty() ? "unknown" : n), description(d.empty() ? "unknown" : d) {}
+    Location(int i, const std::string& n, const std::string& t, const std::string d)
+        : id(i), name(n.empty() ? "unknown" : n), toname(n.empty() ? "unknown" : t), description(d.empty() ? "unknown" : d) {}
 
     int getId() const { return id; }
-    std::string getName() { return name; }
-    std::string getDescription() { return description; }
+    std::string getName() const { return name; }
+    std::string getToname() const { return toname; }
+    std::string getDescription() const { return description; }
+    std::vector<int> getExits() const { return exits; }
 
     void setId(int i) { id = i; }
     void setName(const std::string& n) { 
@@ -101,8 +104,22 @@ public:
             name = n;
         }
     } 
+    void setToname(const std::string& n) {
+        if (!n.empty()) {
+            toname = n;
+        }
+    }
     void setDescription(const std::string& ds) {
         if (!ds.empty()) description = ds;
+    }
+    void setExits(std::vector<int> locas) {
+        exits = locas;
+    }
+
+    void addExit(int exit) {
+        if (std::find(exits.begin(), exits.end(), exit) == exits.end()) {
+            exits.emplace_back(exit);
+        }
     }
 };
 
@@ -116,7 +133,7 @@ private:
 public:
     Player(const std::string& nm)
         : name(nm.empty() ? "unknown" : nm), hp(100), dmg(5), useWeapon(0, 5, "nothing", "nothing"),
-        locaNow(0, "old battlefield", "old battlefield."), maxHp(100) { }
+        locaNow(0, "old battlefield","on field", "old battlefield."), maxHp(100) { }
 
     std::string getName() { return name; }
     int getHp() const { return hp; }
@@ -246,7 +263,8 @@ public:
 
 void getLocationsFromFile(const std::string& filename, std::vector<Location>&locas) {
     std::ifstream file(filename);   
-    std::string line, name, description;
+    std::string line, name, toname, description;
+    std::vector<int>exitIds;
     if (!file.is_open()) {
         throw std::runtime_error("file not open.");
     }         
@@ -259,10 +277,24 @@ void getLocationsFromFile(const std::string& filename, std::vector<Location>&loc
             if (pip1 == std::string::npos) continue;
             size_t pip2 = line.find('|', pip1 + 1);
             if (pip2 == std::string::npos) continue;
+            size_t pip3 = line.find('|', pip2 + 1);
+            if (pip3 == std::string::npos) continue;            
+            size_t pip4 = line.find('|', pip3 + 1);
+            if (pip4 == std::string::npos) continue;
             id = std::stoi(line.substr(0, pip1));
             name = line.substr(pip1 + 1, pip2 - pip1 - 1);
-            description = line.substr(pip2 + 1);
-            locas.emplace_back(id, name, description);
+            toname = line.substr(pip2 + 1, pip3 - pip2 - 1); 
+            for (size_t countIds = 0; countIds < 100; ++countIds) {
+                size_t pop = line.find(';', pip3 + 1);
+                if (pop == std::string::npos) countIds = 100;
+                exitIds.emplace_back(std::stoi(line.substr(pip3 + 1, pop - pip3)));
+            }
+            
+            size_t newPop = line.find(';', pop + 1);
+            
+            ///            
+            description = line.substr(pip4 + 1);
+            
         }
         catch (const std::exception& e) {
             std::cerr << "Ошибка парсинга строки: \"" << line << "\". " << e.what() << std::endl;
