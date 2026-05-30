@@ -2,26 +2,26 @@
 #include <vector>
 #include <string>
 
-std::vector<std::string> generator(const std::string& chrs) {
-    std::vector<std::string> combs;
-	int countComb = 1;
-	for (int i = 0; i < chrs.size(); i++) {
-		countComb *= chrs.size() - i;		
+void generator(const std::string& chrs, std::vector<std::string>& combs) {	
+	if (chrs.size() <= 1) combs.push_back(chrs);
+	else {
+		for (size_t i = 0; i < chrs.size(); i++) {			
+			std::string str = chrs.substr(0, i) + chrs.substr(i + 1);
+			std::vector<std::string> tempCombs;		
+			generator(str, tempCombs);			
+			for (std::string s : tempCombs) {
+				std::string comb = chrs[i] + s; 
+				combs.push_back(comb); 
+			}
+		}
 	}
-	std::string word = "";
-	for (int j = 0; j < countComb; j++) {		
-		
-		
-	}
-	return combs;
 }
 
 int main() {
-	std::string chrs = "abc";
-	int contComb = 1;
-	for (int i = 0; i < chrs.size(); i++) {
-		contComb *= chrs.size() - i;
+	std::vector<std::string> combs;
+	generator("abcd", combs);
+	for (std::string comb : combs) {
+		std::cout << comb << "\n";
 	}
-	std::cout << contComb << "\n";
 }
 

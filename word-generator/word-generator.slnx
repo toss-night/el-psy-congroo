@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="word-generator/word-generator.vcxproj" />
+  <Project Path="word-generator/word-generator.vcxproj" Id="e563696c-4254-4501-9ba0-d352d3d7ded3" />
 </Solution>
