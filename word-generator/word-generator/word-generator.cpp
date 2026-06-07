@@ -18,10 +18,11 @@ void generator(const std::string& chrs, std::vector<std::string>& combs) {
 }
 
 int main() {
+	setlocale(LC_ALL, "ru");
 	std::vector<std::string> combs;
-	generator("abcd", combs);
+	generator("аувоодлир", combs);
 	for (std::string comb : combs) {
-		std::cout << comb << "\n";
+		std::cout << "K" << comb << "\n";
 	}
 }
 

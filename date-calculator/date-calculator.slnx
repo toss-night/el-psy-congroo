@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="date-calculator/date-calculator.vcxproj" Id="dec6abe8-42e6-4012-bf73-1d17c0acd965" />
+</Solution>
