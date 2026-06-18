@@ -20,9 +20,9 @@ void generator(const std::string& chrs, std::vector<std::string>& combs) {
 int main() {
 	setlocale(LC_ALL, "ru");
 	std::vector<std::string> combs;
-	generator("аувоодлир", combs);
+	generator("domin", combs);
 	for (std::string comb : combs) {
-		std::cout << "K" << comb << "\n";
+		std::cout << comb << "\n";
 	}
 }
 
